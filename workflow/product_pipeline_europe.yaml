@@ -1,0 +1,49 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: CronWorkflow
+metadata:
+  generateName: product-pipeline-europe-
+spec:
+  schedule: "0 1 * * *"
+  concurrencyPolicy: "Forbid"
+  startingDeadlineSeconds: 0
+  workflowSpec:
+    serviceAccountName: argoadmin
+    entrypoint: runcronjob
+    volumes:
+      - name: workdir
+        hostPath:
+          path: /data
+    templates:
+      - name: runcronjob
+        steps:
+          - - name: runproductpipelinejob
+              template: runproductpipelinejob
+      - name: runproductpipelinejob
+        container:
+          image: python:3.7.6-buster
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - pip install --upgrade pip;
+              pip install -r /data/data/product_pipeline/requirements.txt;
+              python /data/data/product_pipeline/product_pipeline_europe.py;
+          volumeMounts:
+            - name: workdir
+              mountPath: /data
+          # env:
+          #   - name: AZURE_CLIENT_ID
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: s59-keyvault
+          #         key: AZURE_CLIENT_ID
+          #   - name: AZURE_TENANT_ID
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: s59-keyvault
+          #         key: AZURE_TENANT_ID
+          #   - name: AZURE_CLIENT_SECRET
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: s59-keyvault
+          #         key: AZURE_CLIENT_SECRET
