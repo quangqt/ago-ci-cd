@@ -1,49 +1,26 @@
-apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
-  generateName: product-pipeline-europe-
+  name: hello-world-10
+  labels:
+    123.abc.com/job-type: normal
+    123.abc.com/job-area: abc
 spec:
-  schedule: "0 1 * * *"
-  concurrencyPolicy: "Forbid"
+  schedule: "*/3 * * * *"
+  timezone: "America/Los_Angeles"   # Default to local machine timezone
   startingDeadlineSeconds: 0
+  concurrencyPolicy: "Replace"      # Default to "Allow"
+  successfulJobsHistoryLimit: 4     # Default 3
+  failedJobsHistoryLimit: 4         # Default 1
+  suspend: false                    # Set to "true" to suspend scheduling
+  WorkflowMetadata:
+    labels:
+      abc.123.com/job-type: super
   workflowSpec:
-    serviceAccountName: argoadmin
-    entrypoint: runcronjob
-    volumes:
-      - name: workdir
-        hostPath:
-          path: /data
+    entrypoint: whalesay
     templates:
-      - name: runcronjob
-        steps:
-          - - name: runproductpipelinejob
-              template: runproductpipelinejob
-      - name: runproductpipelinejob
+      - name: whalesay
         container:
-          image: python:3.7.6-buster
-          imagePullPolicy: IfNotPresent
-          command:
-            - /bin/sh
-            - -c
-            - pip install --upgrade pip;
-              pip install -r /data/data/product_pipeline/requirements.txt;
-              python /data/data/product_pipeline/product_pipeline_europe.py;
-          volumeMounts:
-            - name: workdir
-              mountPath: /data
-          # env:
-          #   - name: AZURE_CLIENT_ID
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: s59-keyvault
-          #         key: AZURE_CLIENT_ID
-          #   - name: AZURE_TENANT_ID
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: s59-keyvault
-          #         key: AZURE_TENANT_ID
-          #   - name: AZURE_CLIENT_SECRET
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: s59-keyvault
-          #         key: AZURE_CLIENT_SECRET
+          image: docker/whalesay:latest
+          command: [cowsay]
+          args: ["🕓 hello world"]
