@@ -13,14 +13,20 @@ spec:
   successfulJobsHistoryLimit: 4     # Default 3
   failedJobsHistoryLimit: 4         # Default 1
   suspend: false                    # Set to "true" to suspend scheduling
-  WorkflowMetadata:
-    labels:
-      abc.123.com/job-type: super
   workflowSpec:
-    entrypoint: whalesay
     templates:
-      - name: whalesay
+      - name: runcronjob
+        steps:
+          - - name: runproductpipelinejob
+              template: runproductpipelinejob
+      - name: runproductpipelinejob
         container:
-          image: docker/whalesay:latest
-          command: [cowsay]
-          args: ["🕓 hello world"]
+          image: python:3.7.6-buster
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - pip install --upgrade pip;
+              pip install -r ./data/product_pipeline/requirements.txt;
+              python ./data/product_pipeline/product_pipeline_europe.py;
+    
