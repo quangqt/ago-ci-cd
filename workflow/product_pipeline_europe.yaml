@@ -28,6 +28,6 @@ spec:
             - /bin/sh
             - -c
             - pip install --upgrade pip;
-              pip install -r ./data/product_pipeline/requirements.txt;
-              python ./data/product_pipeline/product_pipeline_europe.py;
+              #pip install -r ./data/product_pipeline/requirements.txt;
+              #python ./data/product_pipeline/product_pipeline_europe.py;
     
