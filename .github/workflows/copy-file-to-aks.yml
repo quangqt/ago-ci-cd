@@ -16,8 +16,8 @@ jobs:
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
       - name: Upload file to Azure Storage Explorer
         env:
-          AZURE_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=https;AccountName=f679f04b37dee493b944601;AccountKey=KjgA4UutKLPX9XfnJ8i8tDkcrUlmRGUWeyHNUcSe3m3D0jR4YyHF6lnksc9PJIS209RDrFSir4ml+ASt6AyxAQ==;FileEndpoint=https://f679f04b37dee493b944601.file.core.windows.net/;
-          AZURE_STORAGE_CONTAINER_NAME: pvc-3baacfd9-ed9a-4a85-aa73-a22f6ef79aba
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING}}
+          AZURE_STORAGE_CONTAINER_NAME: ${{ secrets.AZURE_STORAGE_FILE_SOURCE }}
           AZURE_ACCOUNT_NAME: f679f04b37dee493b944601
           AZURE_ACCOUNT_KEY: KjgA4UutKLPX9XfnJ8i8tDkcrUlmRGUWeyHNUcSe3m3D0jR4YyHF6lnksc9PJIS209RDrFSir4ml+ASt6AyxAQ==
         run: |
