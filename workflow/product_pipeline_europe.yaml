@@ -16,10 +16,10 @@ spec:
   workflowSpec:
     entrypoint: runcronjob
     # serviceAccountName: argoadmin
-    volumes:
-      - name: workdir
-        hostPath:
-          path: /data
+    # volumes:
+    #   - name: workdir
+    #     hostPath:
+    #       path: /data
     templates:
       - name: runcronjob
         steps:
@@ -33,9 +33,9 @@ spec:
             - /bin/sh
             - -c
             - pip install --upgrade pip;
-              pip install -r /data/product_pipeline/requirements.txt;
-              python /data/product_pipeline/product_pipeline_europe.py;
-          volumeMounts:
-            - name: workdir
-              mountPath: /data
+              #pip install -r /data/product_pipeline/requirements.txt;
+              #python /data/product_pipeline/product_pipeline_europe.py;
+          # volumeMounts:
+          #   - name: workdir
+          #     mountPath: /data
     
