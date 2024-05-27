@@ -15,7 +15,7 @@ spec:
   suspend: false                    # Set to "true" to suspend scheduling
   workflowSpec:
     entrypoint: runcronjob
-    # serviceAccountName: argoadmin
+    serviceAccountName: argoadmin
     # volumes:
     #   - name: workdir
     #     hostPath:
