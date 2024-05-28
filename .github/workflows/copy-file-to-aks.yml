@@ -11,15 +11,29 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Install Azure CLI
+      #- name: Install Azure CLI
+      #  run: |
+      #    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      - name: List changed files
         run: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-      - name: Upload file to Azure Storage Explorer
-        env:
-          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING}}
-          AZURE_STORAGE_CONTAINER_NAME: ${{ secrets.AZURE_STORAGE_FILE_SOURCE }}
-          AZURE_ACCOUNT_NAME: f679f04b37dee493b944601
-          AZURE_ACCOUNT_KEY: KjgA4UutKLPX9XfnJ8i8tDkcrUlmRGUWeyHNUcSe3m3D0jR4YyHF6lnksc9PJIS209RDrFSir4ml+ASt6AyxAQ==
-        run: |
-          az storage file upload-batch -s data -d $AZURE_STORAGE_CONTAINER_NAME --connection-string $AZURE_STORAGE_CONNECTION_STRING
+            for file in ${{ steps.changed-files.outputs.changed_files }}; do
+                echo "$file was changed"
+            done
+      # - name: copy file via ssh password
+      #   uses: appleboy/scp-action@v0.1.7
+      #   with:
+      #     host: 10.47.18.180
+      #     username: ashisht
+      #     password: As8a9xj1
+      #     # port: ${{ secrets.PORT }}
+      #     source: workflow
+      #     target: workflow-test
+      # - name: Upload file to Azure Storage Explorer
+      #   env:
+      #     AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING}}
+      #     AZURE_STORAGE_CONTAINER_NAME: ${{ secrets.AZURE_STORAGE_FILE_SOURCE }}
+      #     AZURE_ACCOUNT_NAME: f679f04b37dee493b944601
+      #     AZURE_ACCOUNT_KEY: KjgA4UutKLPX9XfnJ8i8tDkcrUlmRGUWeyHNUcSe3m3D0jR4YyHF6lnksc9PJIS209RDrFSir4ml+ASt6AyxAQ==
+      #   run: |
+      #     az storage file upload-batch -s data -d $AZURE_STORAGE_CONTAINER_NAME --connection-string $AZURE_STORAGE_CONNECTION_STRING
 
