@@ -32,8 +32,6 @@ jobs:
       #   env:
       #     AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING}}
       #     AZURE_STORAGE_CONTAINER_NAME: ${{ secrets.AZURE_STORAGE_FILE_SOURCE }}
-      #     AZURE_ACCOUNT_NAME: f679f04b37dee493b944601
-      #     AZURE_ACCOUNT_KEY: KjgA4UutKLPX9XfnJ8i8tDkcrUlmRGUWeyHNUcSe3m3D0jR4YyHF6lnksc9PJIS209RDrFSir4ml+ASt6AyxAQ==
       #   run: |
       #     az storage file upload-batch -s data -d $AZURE_STORAGE_CONTAINER_NAME --connection-string $AZURE_STORAGE_CONNECTION_STRING
 
