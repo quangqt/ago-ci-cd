@@ -21,8 +21,8 @@ jobs:
           sh ./copy_and_create.sh
       - name: Upload file to Azure Storage Explorer
         env:
-          AZURE_STORAGE_CONNECTION_STRING: AccountName=f679f04b37dee493b944601;AccountKey=KjgA4UutKLPX9XfnJ8i8tDkcrUlmRGUWeyHNUcSe3m3D0jR4YyHF6lnksc9PJIS209RDrFSir4ml+ASt6AyxAQ==;EndpointSuffix=core.windows.net;DefaultEndpointsProtocol=https;
-          AZURE_STORAGE_CONTAINER_NAME: pvc-3baacfd9-ed9a-4a85-aa73-a22f6ef79aba
+          AZURE_STORAGE_CONNECTION_STRING: test
+          AZURE_STORAGE_CONTAINER_NAME: test
         run: |
             az storage file upload-batch -s file_upload -d $AZURE_STORAGE_CONTAINER_NAME --connection-string $AZURE_STORAGE_CONNECTION_STRING
 
